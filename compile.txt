@@ -1,0 +1,2 @@
+// Windows
+g++ main.cpp System_analizer.cpp Gui_manager.cpp -o Monitor -lgdi32
