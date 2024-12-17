@@ -1,5 +1,6 @@
 # 💎 Brilliant system resources monitor
 - **Platform**: windows
+- **GPU**: nvidia
   
 ![video_2024-12-17_10-33-51-ezgif com-optimize (1)](https://github.com/user-attachments/assets/edecafad-eca2-43d9-94a6-d69f07ff9db4)
 
