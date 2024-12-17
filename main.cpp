@@ -43,6 +43,7 @@ int main(void)
             << WHITE << "CPU: " << cpu_p << endl;
     }
 
+    getchar();
     return 0;
 }
 
