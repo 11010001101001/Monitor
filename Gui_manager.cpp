@@ -25,5 +25,5 @@ void Gui_manager::build_top_console_window()
         y,
         width,
         height,
-        SWP_SHOWWINDOW);
+        SWP_NOREDRAW);
 }
