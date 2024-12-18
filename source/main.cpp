@@ -82,9 +82,17 @@ string paint(string metrics)
 
 int convert_to_int(string value)
 {
-    stringstream stream;
     int i = 0;
-    stream << value;
-    stream >> i;
+
+    try
+    {
+        stringstream stream;
+        stream << value;
+        stream >> i;
+    }
+    catch (...)
+    {
+    }
+
     return i;
 }

@@ -1,5 +1,4 @@
 @echo off
-cd E:\Developer\Development\C++\Monitor
 setlocal enabledelayedexpansion
 
 echo Compiling:
@@ -13,11 +12,11 @@ for /r %%i in (*.cpp) do (
     echo %%~nxi
 )
 
-set include_path=E:\Developer\Development\C++\Monitor\header
+set include_path=header
 
 g++ -I %include_path% %files% -o Monitor -lgdi32
 
 echo.
 echo Compiled files count: %file_count%
-echo Success, enjoy
+echo Success
 endlocal
