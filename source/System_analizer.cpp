@@ -79,5 +79,5 @@ string System_analizer::extract(const char *cmd)
     }
     _pclose(pipe);
 
-    return digits;
+    return digits.empty() ? "0" : digits;
 }
