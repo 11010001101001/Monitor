@@ -1,10 +1,7 @@
 #include <string>
 #include <iostream>
-#include <math.h>
-#include <iomanip>
 #include <windows.h>
-#include <cctype>
-
+#include <math.h>
 using namespace std;
 
 class System_analizer
@@ -21,11 +18,7 @@ public:
     string analize(DevicePart part);
 
 private:
-    static MEMORYSTATUSEX memInfo;
-    static unsigned long long FileTimeToInt64(const FILETIME &ft);
-
     double toGb(DWORDLONG num);
-    static float CalculateCPULoad(unsigned long long idleTicks, unsigned long long totalTicks);
     string extract(const char *cmd);
 
     string get_ram_usage();

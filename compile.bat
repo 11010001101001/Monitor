@@ -14,7 +14,7 @@ for /r %%i in (*.cpp) do (
 
 set include_path=header
 
-g++ -I %include_path% %files% -o Monitor -lgdi32
+g++ -g -I %include_path% %files% -o Monitor -lgdi32
 
 echo.
 echo Compiled files count: %file_count%
