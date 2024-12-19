@@ -12,7 +12,6 @@
 #include "Gui_manager.h"
 #include <iostream>
 #include <Windows.h>
-#include <sstream>
 
 using part = System_analizer::DevicePart;
 
@@ -80,19 +79,14 @@ string paint(string metrics)
     return result;
 }
 
-int convert_to_int(string value)
+int convert_to_int(string ptr)
 {
-    int i = 0;
-
     try
     {
-        stringstream stream;
-        stream << value;
-        stream >> i;
+        return stoi(ptr);
     }
     catch (...)
     {
+        return 0;
     }
-
-    return i;
 }
