@@ -74,11 +74,8 @@ string System_analizer::extract(const char *cmd)
 
     while (fgets(buffer, 128, pipe) != NULL)
     {
-        for (int i = 0; buffer[i] != '\0'; i++)
-            if (isdigit(buffer[i]))
-            {
-                digits += buffer[i];
-            }
+        for (int i = 0; buffer[i] != '\0' && isdigit(buffer[i]); i++)
+            digits += buffer[i];
     }
     _pclose(pipe);
 
