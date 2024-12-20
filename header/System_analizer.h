@@ -2,6 +2,7 @@
 #include <iostream>
 #include <windows.h>
 #include <math.h>
+
 using namespace std;
 
 class System_analizer
@@ -15,12 +16,11 @@ public:
         cpu
     };
 
-    string analize(DevicePart part);
+    string analize(DevicePart);
 
 private:
-    double toGb(DWORDLONG num);
-    string get_cmd_output(const char *cmd);
-
+    double toGb(DWORDLONG);
+    string get_cmd_output(const char *);
     string get_ram_usage();
     string get_gpu_usage();
     string get_gpu_temp();

@@ -2,6 +2,7 @@
 #define GPU_USAGE_CMD "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits"
 #define GPU_TEMP_CMD "nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits"
 #define ZERO "0"
+
 #include "System_analizer.h"
 #include <iostream>
 #include <string>
@@ -29,7 +30,7 @@ string System_analizer::analize(DevicePart part)
         break;
 
     default:
-        return "0";
+        return ZERO;
     }
 }
 
