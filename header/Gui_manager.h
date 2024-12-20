@@ -3,6 +3,7 @@
 #include <string>
 
 using namespace std;
+using part = System_analizer::DevicePart;
 
 class Gui_manager
 {
@@ -11,7 +12,8 @@ private:
     void build_top_console_window();
     void hide_cursor();
     void set_bold_font();
-    void show(System_analizer::DevicePart, string);
+    void show(part, string);
+    void check_is_achtung(string, string, string);
     int convert_to_int(string);
     WORD get_wAttributes(string);
     COORD build_coord();

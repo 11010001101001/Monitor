@@ -3,6 +3,7 @@
 #define DELAY 3000
 #define DIVIDER " / "
 #define SPACER "                    "
+#define CRITICAL 80
 #define WHITE FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE
 #define GREEN FOREGROUND_GREEN | FOREGROUND_INTENSITY
 #define YELLOW FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY
@@ -81,7 +82,7 @@ void Gui_manager::show_stats(System_analizer analizer, COORD coord)
     // 'reset' old cout
     SetConsoleCursorPosition(hConsole, coord);
 
-    for (int i = 0; i <= 3; i++)
+    for (int i = 0; i <= 4; i++)
         cout << SPACER << endl;
 
     // cout new values with no cls blinking
@@ -91,6 +92,8 @@ void Gui_manager::show_stats(System_analizer analizer, COORD coord)
     show(part::gpu, gpu);
     show(part::gpu_temp, gpu_temp);
     show(part::cpu, cpu);
+
+    check_is_achtung(ram, gpu, cpu);
 
     Sleep(DELAY);
 }
@@ -174,5 +177,20 @@ void Gui_manager::start()
     while (true)
     {
         show_stats(analizer, coord);
+    }
+}
+
+void Gui_manager::check_is_achtung(string ram, string gpu, string cpu)
+{
+    int cpu_i = convert_to_int(cpu);
+    int ram_i = convert_to_int(ram);
+    int gpu_i = convert_to_int(gpu);
+
+    bool is_ahtung = cpu_i > CRITICAL && ram_i > CRITICAL && gpu_i > CRITICAL;
+
+    if (is_ahtung)
+    {
+        SetConsoleTextAttribute(hConsole, RED);
+        cout << " ACHTUNG !!!";
     }
 }
