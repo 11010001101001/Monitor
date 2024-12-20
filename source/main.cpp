@@ -7,6 +7,9 @@
 #define DIVIDER " / "
 #define CLEAR "cls"
 #define DELAY 3000
+#define HIDE_CURSOR "\e[?25l"
+#define BOLD "\e[1m"
+#define SPACER " "
 
 #include "System_analizer.h"
 #include "Gui_manager.h"
@@ -48,10 +51,10 @@ void show_stats(System_analizer analizer, Gui_manager gui_manager)
     Sleep(DELAY);
     system(CLEAR);
 
-    cout
-        << WHITE << "RAM: " << ram_p << endl
-        << WHITE << "GPU: " << gpu_p << DIVIDER << gpu_temp_p << endl
-        << WHITE << "CPU: " << cpu_p << endl;
+    cout << BOLD
+         << SPACER << WHITE << "RAM: " << ram_p << endl
+         << SPACER << WHITE << "GPU: " << gpu_p << DIVIDER << gpu_temp_p << endl
+         << SPACER << WHITE << "CPU: " << cpu_p << HIDE_CURSOR;
 }
 
 string paint(string metrics)

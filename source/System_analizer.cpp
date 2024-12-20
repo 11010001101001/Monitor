@@ -1,3 +1,7 @@
+#define CPU_USAGE_CMD "wmic cpu get loadpercentage"
+#define GPU_USAGE_CMD "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits"
+#define GPU_TEMP_CMD "nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits"
+#define ZERO "0"
 #include "System_analizer.h"
 #include <iostream>
 #include <string>
@@ -53,20 +57,20 @@ string System_analizer::get_ram_usage()
 
 string System_analizer::get_gpu_usage()
 {
-    return extract("nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits");
+    return get_cmd_output(GPU_USAGE_CMD);
 }
 
 string System_analizer::get_gpu_temp()
 {
-    return extract("nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits");
+    return get_cmd_output(GPU_TEMP_CMD);
 }
 
 string System_analizer::get_cpu_usage()
 {
-    return extract("wmic cpu get loadpercentage");
+    return get_cmd_output(CPU_USAGE_CMD);
 }
 
-string System_analizer::extract(const char *cmd)
+string System_analizer::get_cmd_output(const char *cmd)
 {
     FILE *pipe = _popen(cmd, "r");
     char buffer[128];
@@ -79,5 +83,5 @@ string System_analizer::extract(const char *cmd)
     }
     _pclose(pipe);
 
-    return digits.empty() ? "0" : digits;
+    return digits.empty() ? ZERO : digits;
 }

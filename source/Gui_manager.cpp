@@ -14,7 +14,7 @@ void Gui_manager::build_top_console_window()
     int right = desktop.right;
     int top = desktop.top;
     int width = 250;
-    int height = 110;
+    int height = 100;
     int x = right - width;
     int y = top + 32;
 

@@ -19,7 +19,7 @@ public:
 
 private:
     double toGb(DWORDLONG num);
-    string extract(const char *cmd);
+    string get_cmd_output(const char *cmd);
 
     string get_ram_usage();
     string get_gpu_usage();
