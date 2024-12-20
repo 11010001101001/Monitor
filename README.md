@@ -6,7 +6,7 @@
 
 updated:
 
-![Безымянный](https://github.com/user-attachments/assets/e22b1eaf-81de-4f1c-84d2-f9b5c1d5f789)
+![Безымянный](https://github.com/user-attachments/assets/67165daf-68c2-49b4-b57f-9c7a124a7c7a)
 
 ## ☕️
 - **TON**: UQCQclFDQnQkHI4bJETisvn4QAZevjMWx5mjC3AErZaXvhlU
