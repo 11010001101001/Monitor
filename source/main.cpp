@@ -1,5 +1,6 @@
 #define RED "\033[31m"
 #define GREEN "\033[32m"
+#define ORANGE "\033[38;5;208m"
 #define YELLOW "\033[33m"
 #define WHITE "\033[37m"
 #define DEGREES "\370"
@@ -62,15 +63,19 @@ string paint(string metrics)
     int i = convert_to_int(metrics);
     string result;
 
-    if (i < 33)
+    if (i < 25)
     {
         result = GREEN + metrics;
     }
-    else if (i >= 33 && i < 66)
+    else if (i >= 25 && i < 50)
     {
         result = YELLOW + metrics;
     }
-    else if (i >= 66)
+    else if (i >= 50 && i < 75)
+    {
+        result = ORANGE + metrics;
+    }
+    else if (i >= 75)
     {
         result = RED + metrics;
     }
