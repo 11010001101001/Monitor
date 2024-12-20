@@ -1,7 +1,8 @@
-#define DEGREES " '"
+#define DEGREES " °C"
 #define PROCENTS " %"
 #define DELAY 3000
 #define DIVIDER " / "
+#define SPACER "                 "
 #define WHITE FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE
 #define GREEN FOREGROUND_GREEN | FOREGROUND_INTENSITY
 #define YELLOW FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY
@@ -59,6 +60,7 @@ void Gui_manager::build_top_console_window()
 
     hide_cursor();
     set_bold_font();
+    SetConsoleOutputCP(CP_UTF8);
 }
 
 COORD Gui_manager::build_coord()
@@ -76,6 +78,13 @@ void Gui_manager::show_stats(System_analizer analizer, COORD coord)
     string gpu_temp = analizer.analize(part::gpu_temp);
     string cpu = analizer.analize(part::cpu);
 
+    // 'reset' old cout
+    SetConsoleCursorPosition(hConsole, coord);
+
+    for (int i = 0; i <= 3; i++)
+        cout << SPACER << endl;
+
+    // cout new values with no cls blinking
     SetConsoleCursorPosition(hConsole, coord);
 
     show(part::ram, ram);
