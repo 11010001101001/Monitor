@@ -8,6 +8,8 @@ updated:
 
 ![Безымянный](https://github.com/user-attachments/assets/67165daf-68c2-49b4-b57f-9c7a124a7c7a)
 
+![Безымянный](https://github.com/user-attachments/assets/1d61ba5c-7494-4c03-ade9-a45191fe33af)
+
 ## ☕️
 - **TON**: UQCQclFDQnQkHI4bJETisvn4QAZevjMWx5mjC3AErZaXvhlU
 - **USDT**: TSiRAGH2apuygsgYP7Q9mS48WN4gDS6D5o
