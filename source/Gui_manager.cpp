@@ -174,6 +174,8 @@ void Gui_manager::start()
     COORD coord = build_coord();
     build_top_console_window();
 
+    cout << " Loading...";
+
     while (true)
     {
         show_stats(analizer, coord);
