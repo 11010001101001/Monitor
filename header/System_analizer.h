@@ -13,6 +13,7 @@ public:
         ram,
         gpu,
         gpu_temp,
+        gpu_fan_speed,
         cpu
     };
 
@@ -23,6 +24,7 @@ private:
     string get_cmd_output(const char *);
     string get_ram_usage();
     string get_gpu_usage();
+    string get_gpu_fan_speed();
     string get_gpu_temp();
     string get_cpu_usage();
 };

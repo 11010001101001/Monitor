@@ -2,7 +2,7 @@
 #define PROCENTS " %"
 #define DELAY 3000
 #define DIVIDER " / "
-#define SPACER "                    "
+#define SPACER "                                  "
 #define CRITICAL 80
 #define WHITE FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE
 #define GREEN FOREGROUND_GREEN | FOREGROUND_INTENSITY
@@ -14,6 +14,7 @@
 #include <Windows.h>
 #include <string>
 #include <iostream>
+#include <iomanip>
 
 using part = System_analizer::DevicePart;
 
@@ -45,8 +46,8 @@ void Gui_manager::build_top_console_window()
 
     int right = desktop.right;
     int top = desktop.top;
-    int width = 250;
-    int height = 110;
+    int width = 320;
+    int height = 120;
     int x = right - width;
     int y = top + 32;
 
@@ -77,12 +78,13 @@ void Gui_manager::show_stats(System_analizer analizer, COORD coord)
     string ram = analizer.analize(part::ram);
     string gpu = analizer.analize(part::gpu);
     string gpu_temp = analizer.analize(part::gpu_temp);
+    string gpu_fan_speed = analizer.analize(part::gpu_fan_speed);
     string cpu = analizer.analize(part::cpu);
 
     // 'reset' old cout
     SetConsoleCursorPosition(hConsole, coord);
 
-    for (int i = 0; i <= 4; i++)
+    for (int i = 0; i <= 5; i++)
         cout << SPACER << endl;
 
     // cout new values with no cls blinking
@@ -91,6 +93,7 @@ void Gui_manager::show_stats(System_analizer analizer, COORD coord)
     show(part::ram, ram);
     show(part::gpu, gpu);
     show(part::gpu_temp, gpu_temp);
+    show(part::gpu_fan_speed, gpu_fan_speed);
     show(part::cpu, cpu);
 
     check_is_achtung(ram, gpu, cpu);
@@ -105,19 +108,19 @@ void Gui_manager::show(part part, string param)
     switch (part)
     {
     case part::cpu:
-        cout << " CPU: ";
+        cout << " CPU: " << setw(20);
         SetConsoleTextAttribute(hConsole, get_wAttributes(param));
         cout << param + PROCENTS << endl;
         break;
 
     case part::ram:
-        cout << " RAM: ";
+        cout << " RAM: " << setw(20);
         SetConsoleTextAttribute(hConsole, get_wAttributes(param));
         cout << param + PROCENTS << endl;
         break;
 
     case part::gpu:
-        cout << " GPU: ";
+        cout << " GPU: " << setw(20);
         SetConsoleTextAttribute(hConsole, get_wAttributes(param));
         cout << param + PROCENTS;
         break;
@@ -125,6 +128,12 @@ void Gui_manager::show(part part, string param)
     case part::gpu_temp:
         SetConsoleTextAttribute(hConsole, get_wAttributes(param));
         cout << DIVIDER << param + DEGREES << endl;
+        break;
+
+    case part::gpu_fan_speed:
+        cout << " GPU FAN SPEED: " << setw(10);
+        SetConsoleTextAttribute(hConsole, get_wAttributes(param));
+        cout << param + PROCENTS << endl;
         break;
 
     default:
@@ -193,6 +202,6 @@ void Gui_manager::check_is_achtung(string ram, string gpu, string cpu)
     if (is_ahtung)
     {
         SetConsoleTextAttribute(hConsole, RED);
-        cout << " ACHTUNG !!!";
+        cout << " !!! ACHTUNG !!!";
     }
 }

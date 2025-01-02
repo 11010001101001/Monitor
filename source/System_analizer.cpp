@@ -1,6 +1,7 @@
 #define CPU_USAGE_CMD "wmic cpu get loadpercentage"
 #define GPU_USAGE_CMD "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits"
 #define GPU_TEMP_CMD "nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits"
+#define GPU_FAN_SPEED "nvidia-smi --query-gpu=fan.speed --format=csv,noheader,nounits"
 #define ZERO "0"
 
 #include "System_analizer.h"
@@ -27,6 +28,10 @@ string System_analizer::analize(DevicePart part)
 
     case gpu_temp:
         return get_gpu_temp();
+        break;
+
+    case gpu_fan_speed:
+        return get_gpu_fan_speed();
         break;
 
     default:
@@ -64,6 +69,11 @@ string System_analizer::get_gpu_usage()
 string System_analizer::get_gpu_temp()
 {
     return get_cmd_output(GPU_TEMP_CMD);
+}
+
+string System_analizer::get_gpu_fan_speed()
+{
+    return get_cmd_output(GPU_FAN_SPEED);
 }
 
 string System_analizer::get_cpu_usage()
