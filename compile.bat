@@ -20,7 +20,7 @@ set include_path=header
 
 g++ -g -I %include_path% %files% -o Monitor -lgdi32
 
-echo ^---^> Success, files: %file_count%
+echo ^---^> Success, files compiled: %file_count%
 
 REM End date & time
 for /F "tokens=2 delims==" %%I in ('wmic OS Get localdatetime /value') do set "end_date=%%I"

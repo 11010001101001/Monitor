@@ -48,7 +48,7 @@ void Gui_manager::build_top_console_window()
     int top = desktop.top;
     int width = 320;
     int height = 120;
-    int x = right - width;
+    int x = right - width + 4;
     int y = top + 32;
 
     SetWindowPos(
