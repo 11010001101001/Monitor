@@ -18,7 +18,7 @@
 #include <iostream>
 #include <iomanip>
 
-// using part = System_analizer::DevicePart;
+using part = System_analizer::DevicePart;
 
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
