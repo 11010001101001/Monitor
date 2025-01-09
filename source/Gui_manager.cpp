@@ -18,7 +18,7 @@
 #include <iostream>
 #include <iomanip>
 
-using part = System_analizer::DevicePart;
+// using part = System_analizer::DevicePart;
 
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -107,7 +107,7 @@ void Gui_manager::show_stats(System_analizer analizer, COORD coord)
     Sleep(DELAY);
 }
 
-void Gui_manager::show(part part, string param)
+void Gui_manager::show(System_analizer::DevicePart part, string param)
 {
     SetConsoleTextAttribute(hConsole, WHITE);
 
@@ -138,7 +138,7 @@ void Gui_manager::show(part part, string param)
 
     case part::gpu_fan_speed:
         cout << " GPU FAN SPEED: " << setw(10);
-        SetConsoleTextAttribute(hConsole, get_wAttributes_gpu_fan(param));
+        SetConsoleTextAttribute(hConsole, get_wAttributes(param, gpu_fan));
         cout << param + RPM << endl;
         break;
 
@@ -147,47 +147,39 @@ void Gui_manager::show(part part, string param)
     }
 }
 
-WORD Gui_manager::get_wAttributes(string param)
+WORD Gui_manager::get_wAttributes(string param, Attributes_type type)
 {
     int i = convert_to_int(param);
+    int min, middle, max;
 
-    if (i < 25)
+    switch (type)
+    {
+    case gpu_fan:
+        min = 1000;
+        middle = 1500;
+        max = 2500;
+        break;
+
+    default:
+        min = 25;
+        middle = 50;
+        max = 75;
+        break;
+    }
+
+    if (i < min)
     {
         return GREEN;
     }
-    else if (i >= 25 && i < 50)
+    else if (i >= min && i < middle)
     {
         return YELLOW;
     }
-    else if (i >= 50 && i < 75)
+    else if (i >= middle && i < max)
     {
         return ORANGE;
     }
-    else if (i >= 75)
-    {
-        return RED;
-    }
-
-    return WHITE;
-}
-
-WORD Gui_manager::get_wAttributes_gpu_fan(string param)
-{
-    int i = convert_to_int(param);
-
-    if (i < 1000)
-    {
-        return GREEN;
-    }
-    else if (i >= 1000 && i < 1500)
-    {
-        return YELLOW;
-    }
-    else if (i >= 1500 && i < 2500)
-    {
-        return ORANGE;
-    }
-    else if (i >= 2500)
+    else if (i >= max)
     {
         return RED;
     }
