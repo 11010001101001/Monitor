@@ -1,4 +1,6 @@
+#define RPM " RPM"
 #define DEGREES " °C"
+#define RTX_2060_MAX_RPM 3069
 #define PROCENTS " %"
 #define DELAY 3000
 #define DIVIDER " / "
@@ -78,7 +80,11 @@ void Gui_manager::show_stats(System_analizer analizer, COORD coord)
     string ram = analizer.analize(part::ram);
     string gpu = analizer.analize(part::gpu);
     string gpu_temp = analizer.analize(part::gpu_temp);
-    string gpu_fan_speed = analizer.analize(part::gpu_fan_speed);
+
+    int fan_usage = convert_to_int(analizer.analize(part::gpu_fan_speed));
+    int fan_speed = (float(fan_usage) / 100) * RTX_2060_MAX_RPM;
+    string gpu_fan_speed_rpm = to_string(fan_speed);
+
     string cpu = analizer.analize(part::cpu);
 
     // 'reset' old cout
@@ -93,7 +99,7 @@ void Gui_manager::show_stats(System_analizer analizer, COORD coord)
     show(part::ram, ram);
     show(part::gpu, gpu);
     show(part::gpu_temp, gpu_temp);
-    show(part::gpu_fan_speed, gpu_fan_speed);
+    show(part::gpu_fan_speed, gpu_fan_speed_rpm);
     show(part::cpu, cpu);
 
     check_is_achtung(ram, gpu, cpu);
@@ -132,8 +138,8 @@ void Gui_manager::show(part part, string param)
 
     case part::gpu_fan_speed:
         cout << " GPU FAN SPEED: " << setw(10);
-        SetConsoleTextAttribute(hConsole, get_wAttributes(param));
-        cout << param + PROCENTS << endl;
+        SetConsoleTextAttribute(hConsole, get_wAttributes_gpu_fan(param));
+        cout << param + RPM << endl;
         break;
 
     default:
@@ -158,6 +164,30 @@ WORD Gui_manager::get_wAttributes(string param)
         return ORANGE;
     }
     else if (i >= 75)
+    {
+        return RED;
+    }
+
+    return WHITE;
+}
+
+WORD Gui_manager::get_wAttributes_gpu_fan(string param)
+{
+    int i = convert_to_int(param);
+
+    if (i < 1000)
+    {
+        return GREEN;
+    }
+    else if (i >= 1000 && i < 1500)
+    {
+        return YELLOW;
+    }
+    else if (i >= 1500 && i < 2500)
+    {
+        return ORANGE;
+    }
+    else if (i >= 2500)
     {
         return RED;
     }

@@ -27,6 +27,6 @@ for /F "tokens=2 delims==" %%I in ('wmic OS Get localdatetime /value') do set "e
 set "end_date=%end_date:~0,4%-%end_date:~4,2%-%end_date:~6,2% %end_date:~8,2%:%end_date:~10,2%:%end_date:~12,6%"
 
 REM Duration
-powershell -command "&{$start_date1 = [datetime]::parse('%start_date%'); $end_date1 = [datetime]::parse('%end_date%'); Write-Host (-join('Duration in seconds: ', ($end_date1 - $start_date1).TotalSeconds)); }"
+powershell -command "&{$start_date1 = [datetime]::parse('%start_date%'); $end_date1 = [datetime]::parse('%end_date%'); Write-Host (-join('Duration: ', ($end_date1 - $start_date1).TotalSeconds), 'sec'); }"
 
 endlocal

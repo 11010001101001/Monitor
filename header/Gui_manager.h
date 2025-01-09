@@ -16,6 +16,7 @@ private:
     void check_is_achtung(string, string, string);
     int convert_to_int(string);
     WORD get_wAttributes(string);
+    WORD get_wAttributes_gpu_fan(string);
     COORD build_coord();
 
 public:
