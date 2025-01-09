@@ -1,8 +1,8 @@
 # System resources monitor
-- **Platform**: windows
+- **Platform**: windows 10
 - **GPU**: nvidia rtx 2060 
 
-
+![Безымянный](https://github.com/user-attachments/assets/dda3b96e-2f13-485b-b9cd-b45505c86bce)
 
 ## ☕️
 - **TON**: UQCQclFDQnQkHI4bJETisvn4QAZevjMWx5mjC3AErZaXvhlU
