@@ -2,6 +2,8 @@
 #include <Windows.h>
 #include <string>
 
+using part = System_analizer::DevicePart;
+
 class Gui_manager
 {
 public:

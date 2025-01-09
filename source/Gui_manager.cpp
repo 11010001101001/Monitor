@@ -18,8 +18,6 @@
 #include <iostream>
 #include <iomanip>
 
-using part = System_analizer::DevicePart;
-
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 void Gui_manager::hide_cursor()
