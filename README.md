@@ -1,4 +1,3 @@
-# System resources monitor
 - **Platform**: windows 10
 - **GPU**: nvidia rtx 2060 
 
