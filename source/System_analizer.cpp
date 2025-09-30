@@ -4,34 +4,34 @@
 #define GPU_FAN_SPEED "nvidia-smi --query-gpu=fan.speed --format=csv,noheader,nounits"
 #define ZERO "0"
 
-#include "System_analizer.h"
+#include "system_analizer.h"
 #include <iostream>
 #include <string>
 #include <math.h>
 #include <windows.h>
 
-string System_analizer::analize(DevicePart part)
+string SystemAnalizer::analize(DevicePart part)
 {
     switch (part)
     {
     case cpu:
-        return get_cpu_usage();
+        return getCpuUsage();
         break;
 
     case ram:
-        return get_ram_usage();
+        return getRamUsage();
         break;
 
     case gpu:
-        return get_gpu_usage();
+        return getGpuUsage();
         break;
 
     case gpu_temp:
-        return get_gpu_temp();
+        return getGpuTemp();
         break;
 
     case gpu_fan_speed:
-        return get_gpu_fan_speed();
+        return getGpuFanSpeed();
         break;
 
     default:
@@ -39,12 +39,12 @@ string System_analizer::analize(DevicePart part)
     }
 }
 
-double System_analizer::toGb(DWORDLONG num)
+double SystemAnalizer::toGb(DWORDLONG num)
 {
     return static_cast<double>(num) / pow(1024, 3);
 }
 
-string System_analizer::get_ram_usage()
+string SystemAnalizer::getRamUsage()
 {
     MEMORYSTATUSEX memInfo;
     memInfo.dwLength = sizeof(MEMORYSTATUSEX);
@@ -61,27 +61,27 @@ string System_analizer::get_ram_usage()
     return to_string(static_cast<int>(rounded));
 }
 
-string System_analizer::get_gpu_usage()
+string SystemAnalizer::getGpuUsage()
 {
-    return get_cmd_output(GPU_USAGE_CMD);
+    return getCmdOutput(GPU_USAGE_CMD);
 }
 
-string System_analizer::get_gpu_temp()
+string SystemAnalizer::getGpuTemp()
 {
-    return get_cmd_output(GPU_TEMP_CMD);
+    return getCmdOutput(GPU_TEMP_CMD);
 }
 
-string System_analizer::get_gpu_fan_speed()
+string SystemAnalizer::getGpuFanSpeed()
 {
-    return get_cmd_output(GPU_FAN_SPEED);
+    return getCmdOutput(GPU_FAN_SPEED);
 }
 
-string System_analizer::get_cpu_usage()
+string SystemAnalizer::getCpuUsage()
 {
-    return get_cmd_output(CPU_USAGE_CMD);
+    return getCmdOutput(CPU_USAGE_CMD);
 }
 
-string System_analizer::get_cmd_output(const char *cmd)
+string SystemAnalizer::getCmdOutput(const char *cmd)
 {
     FILE *pipe = _popen(cmd, "r");
     char buffer[128];

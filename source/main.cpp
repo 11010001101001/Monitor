@@ -1,8 +1,8 @@
-#include "Gui_manager.h"
+#include "gui_manager.h"
 
 int main(void)
 {
-    Gui_manager gui_manager;
-    gui_manager.start();
+    GuiManager guiManager;
+    guiManager.start();
     return 0;
 }

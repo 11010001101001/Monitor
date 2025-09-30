@@ -28,5 +28,6 @@ set "end_date=%end_date:~0,4%-%end_date:~4,2%-%end_date:~6,2% %end_date:~8,2%:%e
 
 REM Duration
 powershell -command "&{$start_date1 = [datetime]::parse('%start_date%'); $end_date1 = [datetime]::parse('%end_date%'); Write-Host (-join('Duration: ', ($end_date1 - $start_date1).TotalSeconds), 'sec'); }"
+start Monitor
 
 endlocal

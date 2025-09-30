@@ -5,7 +5,7 @@
 
 using namespace std;
 
-class System_analizer
+class SystemAnalizer
 {
 public:
     enum DevicePart
@@ -21,10 +21,10 @@ public:
 
 private:
     double toGb(DWORDLONG);
-    string get_cmd_output(const char *);
-    string get_ram_usage();
-    string get_gpu_usage();
-    string get_gpu_fan_speed();
-    string get_gpu_temp();
-    string get_cpu_usage();
+    string getCmdOutput(const char *);
+    string getRamUsage();
+    string getGpuUsage();
+    string getGpuFanSpeed();
+    string getGpuTemp();
+    string getCpuUsage();
 };

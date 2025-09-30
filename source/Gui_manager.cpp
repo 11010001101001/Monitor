@@ -2,17 +2,23 @@
 #define DEGREES " °C"
 #define RTX_2060_MAX_RPM 3069
 #define PROCENTS " %"
-#define DELAY 3000
+#define DELAY 2000
 #define DIVIDER " / "
 #define SPACER "                                  "
 #define CRITICAL 80
+#define BARLENGTH 10
+#define OPEN "["
+#define CLOSE "]"
+#define BLOCK "█"
+#define EMPTY "░"
+#define SPACE " "
 #define WHITE FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE
 #define GREEN FOREGROUND_GREEN | FOREGROUND_INTENSITY
 #define YELLOW FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY
 #define ORANGE FOREGROUND_RED | FOREGROUND_GREEN
 #define RED FOREGROUND_RED | FOREGROUND_INTENSITY
 
-#include "Gui_manager.h"
+#include "gui_manager.h"
 #include <Windows.h>
 #include <string>
 #include <iostream>
@@ -20,7 +26,7 @@
 
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-void Gui_manager::hide_cursor()
+void GuiManager::hideCursor()
 {
     CONSOLE_CURSOR_INFO cursorInfo;
     GetConsoleCursorInfo(hConsole, &cursorInfo);
@@ -28,7 +34,7 @@ void Gui_manager::hide_cursor()
     SetConsoleCursorInfo(hConsole, &cursorInfo);
 }
 
-void Gui_manager::set_bold_font()
+void GuiManager::setBoldFont()
 {
     CONSOLE_FONT_INFOEX fontInfo = {sizeof(CONSOLE_FONT_INFOEX)};
     GetCurrentConsoleFontEx(hConsole, FALSE, &fontInfo);
@@ -36,7 +42,7 @@ void Gui_manager::set_bold_font()
     SetCurrentConsoleFontEx(hConsole, FALSE, &fontInfo);
 }
 
-void Gui_manager::build_top_console_window()
+void GuiManager::buildTopConsoleWindow()
 {
     HWND hwndConsole = GetConsoleWindow();
     RECT desktop;
@@ -46,8 +52,8 @@ void Gui_manager::build_top_console_window()
 
     int right = desktop.right;
     int top = desktop.top;
-    int width = 320;
-    int height = 120;
+    int width = 330;
+    int height = 130;
     int x = right - width + 4;
     int y = top + 32;
 
@@ -60,12 +66,12 @@ void Gui_manager::build_top_console_window()
         height,
         SWP_NOREDRAW);
 
-    hide_cursor();
-    set_bold_font();
+    hideCursor();
+    setBoldFont();
     SetConsoleOutputCP(CP_UTF8);
 }
 
-COORD Gui_manager::build_coord()
+COORD GuiManager::buildCoord()
 {
     COORD coord;
     coord.X = 0;
@@ -73,16 +79,12 @@ COORD Gui_manager::build_coord()
     return coord;
 }
 
-void Gui_manager::show_stats(System_analizer analizer, COORD coord)
+void GuiManager::showStats(SystemAnalizer analizer, COORD coord)
 {
     string ram = analizer.analize(part::ram);
     string gpu = analizer.analize(part::gpu);
     string gpu_temp = analizer.analize(part::gpu_temp);
-
-    int fan_usage = convert_to_int(analizer.analize(part::gpu_fan_speed));
-    int fan_speed = (float(fan_usage) / 100) * RTX_2060_MAX_RPM;
-    string gpu_fan_speed_rpm = to_string(fan_speed);
-
+    string fan_usage = analizer.analize(part::gpu_fan_speed);
     string cpu = analizer.analize(part::cpu);
 
     // 'reset' old cout
@@ -94,50 +96,50 @@ void Gui_manager::show_stats(System_analizer analizer, COORD coord)
     // cout new values with no cls blinking
     SetConsoleCursorPosition(hConsole, coord);
 
+    show(part::cpu, cpu);
     show(part::ram, ram);
     show(part::gpu, gpu);
     show(part::gpu_temp, gpu_temp);
-    show(part::gpu_fan_speed, gpu_fan_speed_rpm);
-    show(part::cpu, cpu);
+    show(part::gpu_fan_speed, fan_usage);
 
-    check_is_achtung(ram, gpu, cpu);
+    checkIsAchtung(ram, gpu, cpu);
 
     Sleep(DELAY);
 }
 
-void Gui_manager::show(System_analizer::DevicePart part, string param)
+void GuiManager::show(SystemAnalizer::DevicePart part, string param)
 {
     SetConsoleTextAttribute(hConsole, WHITE);
 
     switch (part)
     {
     case part::cpu:
-        cout << " CPU: " << setw(20);
-        SetConsoleTextAttribute(hConsole, get_wAttributes(param));
-        cout << param + PROCENTS << endl;
+        cout << " CPU:  " << setw(20);
+        SetConsoleTextAttribute(hConsole, getWAttributes(param));
+        cout << buildProgressBar(param) << param + PROCENTS << endl;
         break;
 
     case part::ram:
-        cout << " RAM: " << setw(20);
-        SetConsoleTextAttribute(hConsole, get_wAttributes(param));
-        cout << param + PROCENTS << endl;
+        cout << " RAM:  " << setw(20);
+        SetConsoleTextAttribute(hConsole, getWAttributes(param));
+        cout << buildProgressBar(param) << param + PROCENTS << endl;
         break;
 
     case part::gpu:
-        cout << " GPU: " << setw(20);
-        SetConsoleTextAttribute(hConsole, get_wAttributes(param));
-        cout << param + PROCENTS;
+        cout << " GPU:  " << setw(20);
+        SetConsoleTextAttribute(hConsole, getWAttributes(param));
+        cout << buildProgressBar(param) << param + PROCENTS;
         break;
 
     case part::gpu_temp:
-        SetConsoleTextAttribute(hConsole, get_wAttributes(param));
+        SetConsoleTextAttribute(hConsole, getWAttributes(param));
         cout << DIVIDER << param + DEGREES << endl;
         break;
 
     case part::gpu_fan_speed:
-        cout << " GPU FAN SPEED: " << setw(10);
-        SetConsoleTextAttribute(hConsole, get_wAttributes(param, gpu_fan));
-        cout << param + RPM << endl;
+        cout << " GFAN: " << setw(19);
+        SetConsoleTextAttribute(hConsole, getWAttributes(param, gpu_fan));
+        cout << buildProgressBar(param) << param + PROCENTS << DIVIDER << rpm(param) << endl;
         break;
 
     default:
@@ -145,9 +147,43 @@ void Gui_manager::show(System_analizer::DevicePart part, string param)
     }
 }
 
-WORD Gui_manager::get_wAttributes(string param, Attributes_type type)
+string GuiManager::rpm(string param)
 {
-    int i = convert_to_int(param);
+    int i = convertToInt(param);
+    int fan_speed = (float(i) / 100) * RTX_2060_MAX_RPM;
+    return to_string(fan_speed) + RPM;
+}
+
+string GuiManager::buildProgressBar(string param)
+{
+    double devider;
+    string blocks;
+    string emptys;
+    string bar;
+
+    int i = convertToInt(param);
+    double val = static_cast<double>(i);
+    int rounded = static_cast<int>(round(val / 10.0)) * 10.0;
+    int blocksNum = min(rounded / BARLENGTH, BARLENGTH);
+    int emptyNum = min(BARLENGTH - blocksNum, BARLENGTH);
+
+    for (i = 0; i < blocksNum; i++)
+    {
+        blocks += BLOCK;
+    }
+
+    for (i = 0; i < emptyNum; i++)
+    {
+        emptys += EMPTY;
+    }
+
+    bar = OPEN + blocks + emptys + CLOSE + SPACE;
+    return bar;
+}
+
+WORD GuiManager::getWAttributes(string param, AttributesType type)
+{
+    int i = convertToInt(param);
     int min, middle, max;
 
     switch (type)
@@ -185,7 +221,7 @@ WORD Gui_manager::get_wAttributes(string param, Attributes_type type)
     return WHITE;
 }
 
-int Gui_manager::convert_to_int(string ptr)
+int GuiManager::convertToInt(string ptr)
 {
     try
     {
@@ -197,25 +233,25 @@ int Gui_manager::convert_to_int(string ptr)
     }
 }
 
-void Gui_manager::start()
+void GuiManager::start()
 {
-    System_analizer analizer;
-    COORD coord = build_coord();
-    build_top_console_window();
+    SystemAnalizer analizer;
+    COORD coord = buildCoord();
+    buildTopConsoleWindow();
 
     cout << " Loading...";
 
     while (true)
     {
-        show_stats(analizer, coord);
+        showStats(analizer, coord);
     }
 }
 
-void Gui_manager::check_is_achtung(string ram, string gpu, string cpu)
+void GuiManager::checkIsAchtung(string ram, string gpu, string cpu)
 {
-    int cpu_i = convert_to_int(cpu);
-    int ram_i = convert_to_int(ram);
-    int gpu_i = convert_to_int(gpu);
+    int cpu_i = convertToInt(cpu);
+    int ram_i = convertToInt(ram);
+    int gpu_i = convertToInt(gpu);
 
     bool is_ahtung = cpu_i > CRITICAL && ram_i > CRITICAL && gpu_i > CRITICAL;
 
