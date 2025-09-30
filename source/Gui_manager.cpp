@@ -2,7 +2,7 @@
 #define DEGREES " °C"
 #define RTX_2060_MAX_RPM 3069
 #define PROCENTS " %"
-#define DELAY 2000
+#define DELAY 3000
 #define DIVIDER " / "
 #define SPACER "                                  "
 #define CRITICAL 80
