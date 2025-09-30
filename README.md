@@ -1,7 +1,7 @@
 - **Platform**: windows 10
 - **GPU**: nvidia rtx 2060 
 
-![Безымянный](https://github.com/user-attachments/assets/dda3b96e-2f13-485b-b9cd-b45505c86bce)
+![demo](https://github.com/user-attachments/assets/52bea799-4c3f-4c96-a1d5-e5bb3300a9d2)
 
 ## ☕️
 - **TON**: UQCQclFDQnQkHI4bJETisvn4QAZevjMWx5mjC3AErZaXvhlU
