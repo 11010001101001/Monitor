@@ -4,7 +4,7 @@
 #define PROCENTS " %"
 #define DELAY 3000
 #define DIVIDER " / "
-#define SPACER "                                  "
+#define SPACER "                                   "
 #define CRITICAL 80
 #define BARLENGTH 10
 #define OPEN "["
@@ -138,7 +138,7 @@ void GuiManager::show(SystemAnalizer::DevicePart part, string param)
 
     case part::gpu_fan_speed:
         cout << " GFAN: " << setw(19);
-        SetConsoleTextAttribute(hConsole, getWAttributes(param, gpu_fan));
+        SetConsoleTextAttribute(hConsole, getWAttributes(param));
         cout << buildProgressBar(param) << param + PROCENTS << DIVIDER << rpm(param) << endl;
         break;
 
@@ -181,25 +181,12 @@ string GuiManager::buildProgressBar(string param)
     return bar;
 }
 
-WORD GuiManager::getWAttributes(string param, AttributesType type)
+WORD GuiManager::getWAttributes(string param)
 {
     int i = convertToInt(param);
-    int min, middle, max;
-
-    switch (type)
-    {
-    case gpu_fan:
-        min = 1000;
-        middle = 1500;
-        max = 2500;
-        break;
-
-    default:
-        min = 25;
-        middle = 50;
-        max = 75;
-        break;
-    }
+    int min = 25;
+    int middle = 50;
+    int max = 75;
 
     if (i < min)
     {

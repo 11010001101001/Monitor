@@ -24,6 +24,6 @@ private:
     int convertToInt(string);
     string buildProgressBar(string);
     string rpm(string);
-    WORD getWAttributes(string, AttributesType = _default);
+    WORD getWAttributes(string);
     COORD buildCoord();
 };
